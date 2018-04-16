@@ -21,4 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/profile/{slug}', 'ProfileController@index')->name('profile');
+    Route::get('/profile/edit/profile', 'ProfileController@edit')->name('profile.edit');
+    Route::post('/profile/update/profile', 'ProfileController@update')->name('profile.update');
+
+
 });
