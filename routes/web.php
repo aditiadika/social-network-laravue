@@ -15,8 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', function () {
-    return Auth::user()->hello();
+Route::get('/add', function () {
+    return \App\User::find(4)->add_friend(1);
+});
+
+Route::get('/accept', function () {
+    return \App\User::find(1)->accept_friend(4);
+});
+
+Route::get('/friends', function () {
+    return \App\User::findOrFail(2)->friends();
 });
 
 Auth::routes();

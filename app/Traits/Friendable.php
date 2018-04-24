@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Friendship;
+use App\User;
 
 trait Friendable
 {
@@ -30,8 +31,33 @@ trait Friendable
                 'status' => 1
             ]);
 
-            return response()->json('ok', 200);
+            return response()->json($friendships, 200);
         }
         return response()->json('fails', 501);
+    }
+
+    public function friends()
+    {
+        $friends = array();
+
+        $f1 = Friendship::where('status', 1)
+                        ->where('requester', $this->id)
+                        ->get();
+
+        foreach ($f1 as $friendship):
+            array_push($friends, User::find($friendship->user_requester));
+        endforeach;
+
+        $friends2 = array();
+
+        $f2 = Friendship::where('status', 1)
+                        ->where('user_requested', $this->id)
+                        ->get();
+
+        foreach ($f2 as $friendship):
+            array_push($friends2, User::find($friendship->user_requester));
+        endforeach;
+
+        return array_merge($friends, $friends2);
     }
 }
